@@ -327,10 +327,10 @@ const reply_filter = (m, message) => {
   return m.author.id === message.author.id
 }
 
-const get_general_help_message = () => {
+const get_general_help_message = (client) => {
   let help_message = new MessageEmbed()
     .setColor("#2C2F33")
-    .setDescription(GENERAL_HELP_MESSAGE)
+    .setDescription(GENERAL_HELP_MESSAGE(client))
 
   return help_message
 }

@@ -9,7 +9,7 @@ module.exports = (client, message) => {
     !message.content.includes("@everyone") &&
     message.content.startsWith("<@!")
   ) {
-    message.channel.send(get_general_help_message())
+    message.channel.send(get_general_help_message(client))
   }
 
   if (message.content.indexOf(client.config.PREFIX) !== 0) return

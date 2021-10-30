@@ -1,140 +1,142 @@
-const help = (cmd) => {
+const help = (cmd, client) => {
+  const PREFIX = client.config.PREFIX
+
   const FULL_COMMAND_LIST =
-    "```\
+    `\`\`\`\
 Full command list: \n\
-*album keyword1 (keywords2) ... \n\
-*clear \n\
-*help \n\
-*jump pos \n\
-*lyric \n\
-*next \n\
-*pause \n\
-*play keyword1 (keywords2) ... \n\
-*play youtube_url \n\
-*playfile uploaded_file \n\
-*playlist \n\
-*prev \n\
-*queue (full | amount) \n\
-*remove pos (pos2) (pos3->pos4) ... \n\
-*resume \n\
-*shuffle \n\
-*stop \n\
-*user username \n\n\
-use *help <command> to check detailed explaination \
-```"
+${PREFIX}album keyword1 (keywords2) ... \n\
+${PREFIX}clear \n\
+${PREFIX}help \n\
+${PREFIX}jump pos \n\
+${PREFIX}lyric \n\
+${PREFIX}next \n\
+${PREFIX}pause \n\
+${PREFIX}play keyword1 (keywords2) ... \n\
+${PREFIX}play youtube_url \n\
+${PREFIX}playfile uploaded_file \n\
+${PREFIX}playlist \n\
+${PREFIX}prev \n\
+${PREFIX}queue (full | amount) \n\
+${PREFIX}remove pos (pos2) (pos3->pos4) ... \n\
+${PREFIX}resume \n\
+${PREFIX}shuffle \n\
+${PREFIX}stop \n\
+${PREFIX}user username \n\n\
+use ${PREFIX}help <command> to check detailed explaination \
+\`\`\``
 
   const ALBUM =
-    "```\
-*album [keyword] \n\
+    `\`\`\`\
+${PREFIX}album [keyword] \n\
 Aliases: pa, playalbum \n\n\
 Search for an album \n\
 Reply to the returned message to select an album and add it to the track. \n\n\
-example: *pa street legal dylan\
-```"
+example: ${PREFIX}pa street legal dylan\
+\`\`\``
 
-  const CLEAR = "```\
-*clear \n\n\
+  const CLEAR = `\`\`\`\
+${PREFIX}clear \n\n\
 Removes all songs from the list.\
-```"
+\`\`\``
 
   const JUMP =
-    "```\
-*jump [position] \n\
+    `\`\`\`\
+${PREFIX}jump [position] \n\
 Aliases: j, goto \n\n\
 Jumps to a specified position in the track\n\n\
-example: *j 10\
-```"
+example: ${PREFIX}j 10\
+\`\`\``
 
-  const NEXT = "```\
-*next \n\
+  const NEXT = `\`\`\`\
+${PREFIX}next \n\
 Aliases: n, skip \n\n\
 Skips to the next song.\
-```"
+\`\`\``
 
-  const PAUSE = "```\
-*pause \n\n\
+  const PAUSE = `\`\`\`\
+${PREFIX}pause \n\n\
 Pauses the song.\
-```"
+\`\`\``
 
   const PLAY =
-    "```\
-*play [link or keywords] \n\
+    `\`\`\`\
+${PREFIX}play [link or keywords] \n\
 Aliases: p \n\n\
 Search for the song in Netease and add the first result to the track \n\
 If it's a link, then it adds the url\n\n\
 example:\n\
-  *p free four pink floyd\n\
-  *p https://www.youtube.com/watch?v=DNvOajRSfZ8\
-```"
+  ${PREFIX}p free four pink floyd\n\
+  ${PREFIX}p https://www.youtube.com/watch?v=DNvOajRSfZ8\
+\`\`\``
 
   const PLAYFILE =
-    "```\
-*playfile \n\
+    `\`\`\`\
+${PREFIX}playfile \n\
 Aliases: f, pf \n\n\
 Adds the attached file to the track.\
-```"
+\`\`\``
 
   const PLAYLIST =
-    "```\
-*playlist \n\
+    `\`\`\`\
+${PREFIX}playlist \n\
 Aliases: list \n\n\
-List all the playlist from the Netease user (set by using '*user') \n\
+List all the playlist from the Netease user (set by using '${PREFIX}user') \n\
 Reply to the returned message to select a playlist and add it to the track. \n\n\
-```"
+\`\`\``
 
   const PREV =
-    "```\
-*prev \n\
+    `\`\`\`\
+${PREFIX}prev \n\
 Aliases: b, back \n\n\
 Skips to the previous song.\
-```"
+\`\`\``
 
   const QUEUE =
-    "```\
-*queue [full | amount] \n\
+    `\`\`\`\
+${PREFIX}queue [full | amount] \n\
 Aliases: q \n\n\
 Displays the queue\n\
 An additional parameter can be added to set the display amount\n\n\
 example:\n\
-  *q \n\
-  *q 30\n\
-  *q full\
-```"
+  ${PREFIX}q \n\
+  ${PREFIX}q 30\n\
+  ${PREFIX}q full\
+\`\`\``
 
   const REMOVE =
-    "```\
-*remove [positions] \n\
+    `\`\`\`\
+${PREFIX}remove [positions] \n\
 Aliases: rm \n\n\
 Removes the specified song(s) from the queue\n\n\
 example:\n\
-  *rm 2 5 7 13 (removes 2, 5, 7, 13)\n\
-  *rm 4 8->10 (removes 4, 8, 9, 10)\
-```"
+  ${PREFIX}rm 2 5 7 13 (removes 2, 5, 7, 13)\n\
+  ${PREFIX}rm 4 8->10 (removes 4, 8, 9, 10)\
+\`\`\``
 
-  const RESUME = "```\
-*resume \n\n\
+  const RESUME = `\`\`\`\
+${PREFIX}resume \n\n\
 Resumes the paused song.\
-```"
+\`\`\``
 
-  const SHUFFLE = "```\
-*shuffle \n\n\
+  const SHUFFLE = `\`\`\`\
+${PREFIX}shuffle \n\n\
 Shuffles the remaining queue.\
-```"
+\`\`\``
 
   const STOP =
-    "```\
-*stop \n\
+    `\`\`\`\
+${PREFIX}stop \n\
 Aliases: leave, reset \n\n\
 Clears the queue and leaves the voice channel\
-```"
+\`\`\``
 
   const USER =
-    "```\
-*user [Netease username] \n\n\
+    `\`\`\`\
+${PREFIX}user [Netease username] \n\n\
 Sets the user for this bot\n\
-After user is set, you can use '*playlist' to display all the playlists created by this user.\n\n\
-example: *user 麻辣烤鱼别放大葱\
-```"
+After user is set, you can use '${PREFIX}playlist' to display all the playlists created by this user.\n\n\
+example: ${PREFIX}user 麻辣烤鱼别放大葱\
+\`\`\``
 
   const HELP = {
     album: ALBUM,
@@ -158,9 +160,12 @@ example: *user 麻辣烤鱼别放大葱\
   return HELP[cmd]
 }
 
-const GENERAL_HELP_MESSAGE = `My prefix is \`*\`\n\
-Join a voice channel and use \`*play\` to play some songs\n\
-Type \`*help\` to check the full list of commands`
+const GENERAL_HELP_MESSAGE = (client) => {
+  const PREFIX = client.config.PREFIX;
+  return `My prefix is \`${PREFIX}\`\n\
+  Join a voice channel and use \`${PREFIX}play\` to play some songs\n\
+  Type \`${PREFIX}help\` to check the full list of commands`
+}
 
 exports.help = help
 exports.GENERAL_HELP_MESSAGE = GENERAL_HELP_MESSAGE
