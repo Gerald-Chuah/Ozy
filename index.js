@@ -11,7 +11,8 @@ const CONFIG = {
   PASSWORD: process.env.PASSWORD,
   PHONENUM: process.env.PHONENUM,
   BOT_TOKEN: process.env.BOT_TOKEN,
-  PREFIX: process.env.PREFIX
+  PREFIX: process.env.PREFIX,
+  DEFAULT_USER: process.env.DEFAULT_USER
 }
 
 const client = new Discord.Client()

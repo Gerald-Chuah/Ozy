@@ -21,7 +21,8 @@ module.exports = {
       let queue = assert_queue(message)
 
       let defaultUser = client.config.DEFAULT_USER
-      if (defaultUser) {
+
+      if (!queue.user && defaultUser) {
         let user = await set_user_by_name(defaultUser)
         user && (queue.user = user)
       }
