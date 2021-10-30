@@ -1,4 +1,4 @@
-const Discord = require("discord.js")
+const { Client, Intents, Collection } = require('discord.js');
 const fs = require("fs")
 const { login } = require("./src/api/netease/api")
 const { EVENTS_DIR, COMMANDS_DIR } = require("./src/const")
@@ -15,8 +15,9 @@ const CONFIG = {
   DEFAULT_USER: process.env.DEFAULT_USER
 }
 
-const client = new Discord.Client()
-client.commands = new Discord.Collection()
+// https://stackoverflow.com/questions/68701446/discord-api-valid-intents-must-be-provided-for-the-client
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
+client.commands = new Collection()
 client.config = CONFIG
 client.queue = new Map()
 client.cookie = undefined

@@ -1,5 +1,30 @@
 const { assert_queue } = require("./helper")
 const { get_song_url_by_id } = require("./api/netease/api")
+const {
+  joinVoiceChannel,
+  entersState,
+  createAudioResource,
+  createAudioPlayer,
+  VoiceConnectionStatus,
+  StreamType,
+  AudioPlayerStatus
+} = require('@discordjs/voice');
+
+async function connectToChannel(channel) {
+  const connection = joinVoiceChannel({
+    channelId: channel.id,
+    guildId: channel.guild.id,
+    adapterCreator: createDiscordJSAdapter(channel),
+  });
+
+  try {
+    await entersState(connection, VoiceConnectionStatus.Ready, 30e3);
+    return connection;
+  } catch (error) {
+    connection.destroy();
+    throw error;
+  }
+}
 
 const play = async (message) => {
   let queue = assert_queue(message)
@@ -18,7 +43,13 @@ const play = async (message) => {
   }
 
   if (!queue.connection) {
-    queue.connection = await channel.join()
+    const voiceChannel = message.member.voice.channel
+    queue.connection = await joinVoiceChannel({
+      channelId: voiceChannel.id,
+      guildId: message.guild.id,
+      selfDeaf: true,
+      adapterCreator: message.guild.voiceAdapterCreator,
+    });
 
     queue.connection.on("disconnect", () => {
       message.client.queue.delete(message.guild.id)
@@ -32,9 +63,8 @@ const play = async (message) => {
 
   if (curr_song.source === "netease") {
     url = await get_song_url_by_id(curr_song.id, cookie)
-    play_message = `Playing: ${queue.track[queue.curr_pos].name} (${
-      queue.track[queue.curr_pos].ar.name
-    })`
+    play_message = `Playing: ${queue.track[queue.curr_pos].name} (${queue.track[queue.curr_pos].ar.name
+      })`
   }
 
   if (curr_song.source === "youtube_url") {
@@ -44,16 +74,29 @@ const play = async (message) => {
 
   if (curr_song.source === "uploaded_audio") {
     url = curr_song.url
-    play_message = `Playing: ${queue.track[queue.curr_pos].name} (${
-      queue.track[queue.curr_pos].ar.name
-    })`
+    play_message = `Playing: ${queue.track[queue.curr_pos].name} (${queue.track[queue.curr_pos].ar.name
+      })`
   }
 
   if (!!url) {
     message.channel.send(play_message)
-    dispatcher = queue.connection.play(url).on("finish", () => {
+    const resource = createAudioResource(url);
+    const player = createAudioPlayer()
+
+    player.play(resource)
+
+    player.on('error', error => {
+      console.error("Player error:");
+      console.error(error);
+    });
+
+    player.on(AudioPlayerStatus.Idle, () => {
       play_next(message)
     })
+
+    // dispatcher = queue.connection.play(url).on("finish", () => {
+    //   play_next(message)
+    // })
 
     console.log(`${channel.guild.name}|${channel.name}: ${url}`)
   } else {

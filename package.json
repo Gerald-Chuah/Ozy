@@ -24,8 +24,9 @@
   "homepage": "https://github.com/k27dong/discord-bot#readme",
   "dependencies": {
     "@discordjs/opus": "^0.4.0",
+    "@discordjs/voice": "^0.7.0",
     "NeteaseCloudMusicApi": "git+https://github.com/k27dong/NeteaseCloudMusicApi.git",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.3.0",
     "ffmpeg-static": "^4.4.0",
     "lodash": "^4.17.21",
     "music-metadata": "^7.11.4",
