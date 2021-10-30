@@ -256,6 +256,7 @@ const parse_playlist_list = (list) => {
   }
 
   msg += "```"
+  msg += "Please select your playlist number. eg: 1"
 
   return msg
 }

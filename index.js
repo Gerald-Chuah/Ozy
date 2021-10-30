@@ -2,14 +2,16 @@ const Discord = require("discord.js")
 const fs = require("fs")
 const { login } = require("./src/api/netease/api")
 const { EVENTS_DIR, COMMANDS_DIR } = require("./src/const")
-// const CONFIG = require("./config.json")
+const dotenv = require('dotenv')
+dotenv.config()
+
 
 const CONFIG = {
-  COUNTRYCODE: process.env.countrycode,
-  PASSWORD: process.env.password,
-  PHONENUM: process.env.phonenum,
-  BOT_TOKEN: process.env.bot_token,
-  PREFIX: process.env.prefix
+  COUNTRYCODE: process.env.COUNTRYCODE,
+  PASSWORD: process.env.PASSWORD,
+  PHONENUM: process.env.PHONENUM,
+  BOT_TOKEN: process.env.BOT_TOKEN,
+  PREFIX: process.env.PREFIX
 }
 
 const client = new Discord.Client()

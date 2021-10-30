@@ -60,6 +60,9 @@ module.exports = {
             })
             .catch((err) => {
               console.error(err)
+              if (err.status && err.body) {
+                message.channel.send(`Error (playlist): ${JSON.stringify(err)}`)
+              }
             })
         })
       }

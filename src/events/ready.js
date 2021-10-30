@@ -1,3 +1,3 @@
 module.exports = (client, message) => {
-  client.user.setActivity(" @ozy | *help", { type: "LISTENING" })
+  client.user.setActivity(` @ozy | ${client.config.PREFIX}help`, { type: "LISTENING" })
 }
