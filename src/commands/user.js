@@ -10,11 +10,6 @@ module.exports = {
     try {
       let queue = assert_queue(message)
 
-      if (args.length === 0 && client.config.DEFAULT_USER) {
-        args = []
-        args[0] = client.config.DEFAULT_USER
-      }
-
       if (args.length === 0) {
         message.channel.send(
           !!queue.user ? get_user_embed_msg(queue.user) : `No user set!`

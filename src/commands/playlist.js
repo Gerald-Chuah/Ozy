@@ -9,6 +9,7 @@ const {
   get_songs_from_playlist,
 } = require("../api/netease/api")
 const { play } = require("../player")
+const { set_user_by_name } = require("../api/netease/api")
 
 module.exports = {
   info: {
@@ -18,6 +19,13 @@ module.exports = {
   run: async (client, message, args) => {
     try {
       let queue = assert_queue(message)
+
+      let defaultUser = client.config.DEFAULT_USER
+      if (defaultUser) {
+        let user = await set_user_by_name(defaultUser)
+        user && (queue.user = user)
+      }
+
       if (!queue.user) {
         message.channel.send(`No user set!`)
       } else {
@@ -44,8 +52,7 @@ module.exports = {
                   queue.track.push(song)
                 }
                 message.channel.send(
-                  `**Queued** ${songs.length} song${
-                    songs.length > 1 ? "s" : ""
+                  `**Queued** ${songs.length} song${songs.length > 1 ? "s" : ""
                   } from ${selected_playlist.name}`
                 )
 
